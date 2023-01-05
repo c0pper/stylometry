@@ -1,0 +1,29 @@
+stylometry\_utils package
+=========================
+
+Submodules
+----------
+
+stylometry\_utils.class\_Experiment module
+------------------------------------------
+
+.. automodule:: stylometry_utils.class_Experiment
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+stylometry\_utils.experiment\_classes module
+--------------------------------------------
+
+.. automodule:: stylometry_utils.experiment_classes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: stylometry_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

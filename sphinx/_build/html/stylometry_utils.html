@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stylometry_utils package &mdash; stylometry_utils 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to stylometry_utils’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> stylometry_utils
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">stylometry_utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-stylometry_utils.class_Experiment">stylometry_utils.class_Experiment module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.drop_na"><code class="docutils literal notranslate"><span class="pre">Experiment.drop_na()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.load_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.load_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.load_test_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.load_test_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.preprocess"><code class="docutils literal notranslate"><span class="pre">Experiment.preprocess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.print_cm"><code class="docutils literal notranslate"><span class="pre">Experiment.print_cm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.print_report"><code class="docutils literal notranslate"><span class="pre">Experiment.print_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.show_class_distribution"><code class="docutils literal notranslate"><span class="pre">Experiment.show_class_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.split_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.split_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.use_scaler"><code class="docutils literal notranslate"><span class="pre">Experiment.use_scaler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-stylometry_utils.experiment_classes">stylometry_utils.experiment_classes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.drop_na"><code class="docutils literal notranslate"><span class="pre">Experiment.drop_na()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.load_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.load_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.load_split_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.load_split_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.load_test_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.load_test_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.print_cm"><code class="docutils literal notranslate"><span class="pre">Experiment.print_cm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.print_report"><code class="docutils literal notranslate"><span class="pre">Experiment.print_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.show_class_distribution"><code class="docutils literal notranslate"><span class="pre">Experiment.show_class_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.split_dataset"><code class="docutils literal notranslate"><span class="pre">Experiment.split_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment.use_scaler"><code class="docutils literal notranslate"><span class="pre">Experiment.use_scaler()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.PublicExpertiment"><code class="docutils literal notranslate"><span class="pre">PublicExpertiment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment.evaluate_on_other_dataset"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment.evaluate_on_other_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment.load_model_and_predict"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment.load_model_and_predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment.log"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment.log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment.save_model"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.ScikitExperiment.train"><code class="docutils literal notranslate"><span class="pre">ScikitExperiment.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment"><code class="docutils literal notranslate"><span class="pre">StyloExperiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment.evaluate_on_other_dataset"><code class="docutils literal notranslate"><span class="pre">StyloExperiment.evaluate_on_other_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment.load_model_and_predict"><code class="docutils literal notranslate"><span class="pre">StyloExperiment.load_model_and_predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment.log"><code class="docutils literal notranslate"><span class="pre">StyloExperiment.log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment.save_model"><code class="docutils literal notranslate"><span class="pre">StyloExperiment.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.StyloExperiment.train"><code class="docutils literal notranslate"><span class="pre">StyloExperiment.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment"><code class="docutils literal notranslate"><span class="pre">TFExperiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.bert_encode"><code class="docutils literal notranslate"><span class="pre">TFExperiment.bert_encode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.create_model"><code class="docutils literal notranslate"><span class="pre">TFExperiment.create_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.evaluate_on_other_dataset"><code class="docutils literal notranslate"><span class="pre">TFExperiment.evaluate_on_other_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.load_model_and_predict"><code class="docutils literal notranslate"><span class="pre">TFExperiment.load_model_and_predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.log"><code class="docutils literal notranslate"><span class="pre">TFExperiment.log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.save_model"><code class="docutils literal notranslate"><span class="pre">TFExperiment.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stylometry_utils.experiment_classes.TFExperiment.train"><code class="docutils literal notranslate"><span class="pre">TFExperiment.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.apply_preprocess"><code class="docutils literal notranslate"><span class="pre">apply_preprocess()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stylometry_utils.experiment_classes.preprocess"><code class="docutils literal notranslate"><span class="pre">preprocess()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-stylometry_utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stylometry_utils</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">stylometry_utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stylometry_utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stylometry-utils-package">
+<h1>stylometry_utils package<a class="headerlink" href="#stylometry-utils-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-stylometry_utils.class_Experiment">
+<span id="stylometry-utils-class-experiment-module"></span><h2>stylometry_utils.class_Experiment module<a class="headerlink" href="#module-stylometry_utils.class_Experiment" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.class_Experiment.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A generic experiment class with everything that’s needed by more specific types of experiment to subclass off of.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.drop_na">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">drop_na</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">how</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'any'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.drop_na"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.drop_na" title="Permalink to this definition"></a></dt>
+<dd><p>Drops nan rows (default) or columns using pandas dropna method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – dataframe without target column. Returned by <a class="reference internal" href="#stylometry_utils.class_Experiment.Experiment.load_dataset" title="stylometry_utils.class_Experiment.Experiment.load_dataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.load_dataset()</span></code></a></p></li>
+<li><p><strong>how</strong> – Determine if row or column is removed from DataFrame, when we have at least one NA or all NA.</p></li>
+<li><p><strong>axis</strong> – Determine if rows or columns which contain missing values are removed. <a href="#id1"><span class="problematic" id="id2">*</span></a>0, or ‘index’ : Drop rows which contain missing values. <a href="#id3"><span class="problematic" id="id4">*</span></a>1, or ‘columns’ : Drop columns which contain missing value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>X with dropped nans</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.load_dataset">
+<span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.load_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Loads in memory a csv or xlsx or xls dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_path</strong> – Path of the dataset</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>X and y tuple (y is determined by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">target_col</span></code> attr)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.load_test_dataset">
+<span class="sig-name descname"><span class="pre">load_test_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">how</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'any'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.load_test_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.load_test_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Load a third party tests dataset to be used for verifying model robustness.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>testdataset_path</strong> – path of the tests dataset</p></li>
+<li><p><strong>dropna</strong> – Whether to drop na values or not</p></li>
+<li><p><strong>how</strong> – Determine if row or column is removed from DataFrame, when we have at least one NA or all NA.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param axis:Determine if rows or columns which contain missing values are removed. <a href="#id5"><span class="problematic" id="id6">*</span></a>0, or ‘index’ : Drop rows which contain missing values. <a href="#id7"><span class="problematic" id="id8">*</span></a>1, or ‘columns’ : Drop columns which contain missing value.
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.preprocess">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'english'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemmer=&lt;class</span> <span class="pre">'nltk.stem.snowball.SnowballStemmer'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lemmatizer=&lt;class</span> <span class="pre">'nltk.stem.wordnet.WordNetLemmatizer'&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.preprocess" title="Permalink to this definition"></a></dt>
+<dd><p>Preprocess text rows of the dataset before transforming the text into vectors/matrix. Replaces multiple symbols
+with just one, double spaces, links, emojis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – Text to be processed</p></li>
+<li><p><strong>stem</strong> – True will stem, False will lemmatize</p></li>
+<li><p><strong>language</strong> – Language to be used by stemmer/lemmatizer</p></li>
+<li><p><strong>stemmer</strong> – Stemmer to be used</p></li>
+<li><p><strong>lemmatizer</strong> – Lemmatizer to be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Processed string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.print_cm">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">print_cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvalid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Series</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Series</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.print_cm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.print_cm" title="Permalink to this definition"></a></dt>
+<dd><p>Shows confusion matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yvalid</strong> – Ground truth labels</p></li>
+<li><p><strong>predicted</strong> – predicted labels</p></li>
+<li><p><strong>target_names</strong> – list of class labels</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.print_report">
+<span class="sig-name descname"><span class="pre">print_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvalid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.print_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.print_report" title="Permalink to this definition"></a></dt>
+<dd><p>Shows skelarn report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predicted</strong> – predicted labels</p></li>
+<li><p><strong>yvalid</strong> – Ground truth labels</p></li>
+<li><p><strong>target_names</strong> – list of class labels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.show_class_distribution">
+<span class="sig-name descname"><span class="pre">show_class_distribution</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.show_class_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.show_class_distribution" title="Permalink to this definition"></a></dt>
+<dd><p>Show how many instances of each class are in the dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.split_dataset">
+<span class="sig-name descname"><span class="pre">split_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.split_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.split_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Split the dataset using sklearn train_test_split</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>test_size</strong> – size in decimal of the holdout data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of X_train, X_test, y_train, y_test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.class_Experiment.Experiment.use_scaler">
+<span class="sig-name descname"><span class="pre">use_scaler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/stylometry_utils/class_Experiment.html#Experiment.use_scaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.class_Experiment.Experiment.use_scaler" title="Permalink to this definition"></a></dt>
+<dd><p>Use standard scaler from sklearn on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>scaled X</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stylometry_utils.experiment_classes">
+<span id="stylometry-utils-experiment-classes-module"></span><h2>stylometry_utils.experiment_classes module<a class="headerlink" href="#module-stylometry_utils.experiment_classes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.drop_na">
+<span class="sig-name descname"><span class="pre">drop_na</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">how</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'any'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.drop_na"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.drop_na" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.load_dataset">
+<span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.load_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.load_split_dataset">
+<span class="sig-name descname"><span class="pre">load_split_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.load_split_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.load_split_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.load_test_dataset">
+<span class="sig-name descname"><span class="pre">load_test_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.load_test_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.load_test_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.print_cm">
+<span class="sig-name descname"><span class="pre">print_cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yvalid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.print_cm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.print_cm" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.print_report">
+<span class="sig-name descname"><span class="pre">print_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yvalid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.print_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.print_report" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.show_class_distribution">
+<span class="sig-name descname"><span class="pre">show_class_distribution</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.show_class_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.show_class_distribution" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.split_dataset">
+<span class="sig-name descname"><span class="pre">split_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.split_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.split_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.Experiment.use_scaler">
+<span class="sig-name descname"><span class="pre">use_scaler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#Experiment.use_scaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.Experiment.use_scaler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.PublicExpertiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">PublicExpertiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#PublicExpertiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.PublicExpertiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment" title="stylometry_utils.experiment_classes.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">ScikitExperiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stylometry_utils.experiment_classes.PublicExpertiment" title="stylometry_utils.experiment_classes.PublicExpertiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublicExpertiment</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment.evaluate_on_other_dataset">
+<span class="sig-name descname"><span class="pre">evaluate_on_other_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment.evaluate_on_other_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment.evaluate_on_other_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment.load_model_and_predict">
+<span class="sig-name descname"><span class="pre">load_model_and_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment.load_model_and_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment.load_model_and_predict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">savepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasetname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbl_enc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment.save_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.ScikitExperiment.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#ScikitExperiment.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.ScikitExperiment.train" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">StyloExperiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stylometry_utils.experiment_classes.Experiment" title="stylometry_utils.experiment_classes.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment.evaluate_on_other_dataset">
+<span class="sig-name descname"><span class="pre">evaluate_on_other_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment.evaluate_on_other_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment.evaluate_on_other_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment.load_model_and_predict">
+<span class="sig-name descname"><span class="pre">load_model_and_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment.load_model_and_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment.load_model_and_predict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">savepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasetname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nn_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbl_enc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment.save_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.StyloExperiment.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#StyloExperiment.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.StyloExperiment.train" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">TFExperiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess_dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/content/drive/MyDrive/simo/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_pretrained_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bert-large-uncased'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_encode_maxlen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stylometry_utils.experiment_classes.PublicExpertiment" title="stylometry_utils.experiment_classes.PublicExpertiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">PublicExpertiment</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.bert_encode">
+<span class="sig-name descname"><span class="pre">bert_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.bert_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.bert_encode" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.create_model">
+<span class="sig-name descname"><span class="pre">create_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bert_encode_maxlen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_pretrained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.create_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.create_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.evaluate_on_other_dataset">
+<span class="sig-name descname"><span class="pre">evaluate_on_other_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted_lbl_enc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.evaluate_on_other_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.evaluate_on_other_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.load_model_and_predict">
+<span class="sig-name descname"><span class="pre">load_model_and_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.load_model_and_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.load_model_and_predict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">savepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasetname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_encode_maxlen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_pretrained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbl_enc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.save_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.TFExperiment.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bert_encode_maxlen=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bert_pretrained_model=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer=&lt;keras.optimizers.optimizer_experimental.adam.Adam</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss='binary_crossentropy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics='accuracy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks=[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#TFExperiment.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.TFExperiment.train" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.apply_preprocess">
+<span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">apply_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xtrain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xvalid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#apply_preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.apply_preprocess" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stylometry_utils.experiment_classes.preprocess">
+<span class="sig-prename descclassname"><span class="pre">stylometry_utils.experiment_classes.</span></span><span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stylometry_utils/experiment_classes.html#preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stylometry_utils.experiment_classes.preprocess" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-stylometry_utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stylometry_utils" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to stylometry_utils’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Simone Martin Marotta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

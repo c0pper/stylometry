@@ -52,7 +52,7 @@ def preprocess(text, stem=False):
 
     text = re.sub(r'!+', '!', text)
     text = re.sub(r'\?+', '?', text)
-    text = re.sub(r'\.+', '..', text)
+    text = re.sub(r'\.+', '', text)
     text = re.sub(r"'", "", text)
     text = re.sub(' +', ' ', text).strip()  # Remove and double spaces
     text = re.sub(r'&amp;?', r'and', text)  # replace & -> and

@@ -12,10 +12,18 @@ stylometry\_utils.class\_Experiment module
    :undoc-members:
    :show-inheritance:
 
-stylometry\_utils.experiment\_classes module
---------------------------------------------
+stylometry\_utils.class\_ScikitExperiment module
+------------------------------------------------
 
-.. automodule:: stylometry_utils.experiment_classes
+.. automodule:: stylometry_utils.class_ScikitExperiment
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+stylometry\_utils.decorators module
+-----------------------------------
+
+.. automodule:: stylometry_utils.decorators
    :members:
    :undoc-members:
    :show-inheritance:

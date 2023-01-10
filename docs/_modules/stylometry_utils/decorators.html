@@ -66,20 +66,23 @@
              
   <h1>Source code for stylometry_utils.decorators</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
 
-<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_Experiment.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.decorators.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    *We decorate the function with timeit decorator</span>
-<span class="sd">    *decorator makes note of start time</span>
-<span class="sd">    *then executes the function</span>
-<span class="sd">    *decorator marks end time</span>
-<span class="sd">    *calculates time difference and prints the time taken for the function</span>
+<span class="sd">    * We decorate the function with timeit decorator</span>
+<span class="sd">    * decorator makes note of start time</span>
+<span class="sd">    * then executes the function</span>
+<span class="sd">    * decorator marks end time</span>
+<span class="sd">    * calculates time difference and prints the time taken for the function</span>
+
 <span class="sd">    :param func: function to be timed</span>
 <span class="sd">    :return: Tuple with result and total_time</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">timeit_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

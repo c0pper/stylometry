@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from tqdm import tqdm
+from datetime import datetime
 from stylometry_utils.decorators import timeit
 
 from typing import Tuple, Union, Callable
@@ -21,23 +22,24 @@ tqdm.pandas()
 class Experiment:
     """
     A generic experiment class with everything that's needed by more specific types of experiment to subclass off of.
+    In theory is an abstract class but still need to study those.
     """
 
-    def __init__(self, dataset_path: Path, target_col: str, split: bool = True, test_size: float = 0.2,
-                 model_savepath: Path = MODEL_SAVEPATH):
+    def __init__(self, dataset_path: str, target_col: str, split: bool = True, test_size: float = 0.2):
 
         self.scaler = preprocessing.StandardScaler()
         self.lbl_enc = preprocessing.LabelEncoder()
 
-        self.dataset_path = dataset_path
-        self.dataset_folder = dataset_path.parent
-        self.dataset_name = dataset_path.name
-        self.dataset_stem = dataset_path.stem
+        self.dataset_path = Path(dataset_path)
+        self.dataset_folder = self.dataset_path.parent
+        self.dataset_name = self.dataset_path.name
+        self.dataset_stem = self.dataset_path.stem
         self.test_size = test_size
         self.target_col = target_col
         self.split = split
-        self.model_savepath = model_savepath
         self.dataset_logs_path = self._create_log_folder()
+
+        self.now = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 
         self.preprocessed_file = Path(self.dataset_folder / f"{self.dataset_stem}_preprocessed.csv")
         if Path(self.dataset_folder / f"{self.dataset_stem}_preprocessed.csv").exists():
@@ -46,6 +48,8 @@ class Experiment:
             self.X, self.y = self.load_dataset(self.preprocessed_file, self.target_col)
         else:
             self.X, self.y = self.load_dataset(self.dataset_path, self.target_col)
+
+        self.number_of_classes = len(set(self.y))
 
     def _create_log_folder(self, colab_path: str = r"/content/drive/MyDrive/stylo_experiments/logs"):
         """
@@ -227,19 +231,44 @@ class Experiment:
         self.print_cm(yvalid, predicted, target_names=target_names)
         return report_dict
 
+    def load_test_dataset(self, testdataset_path: str, target_col: str = "label", dropna: bool = False,
+                          how: str = "any", axis: int = 0) -> Tuple:
+        """
+        Load a third party tests dataset to be used for verifying model robustness.
 
-class PublicExpertiment(Experiment):
+        :param target_col: label of the target column in the dataset
+        :param testdataset_path: path of the test dataset
+        :param dropna: Whether to drop na values or not
+        :param how: Determine if row or column is removed from DataFrame, when we have at least one NA or all NA.
+        :param axis: Determine if rows or columns which contain missing values are removed. *0, or ‘index’ : Drop rows which contain missing values. *1, or ‘columns’ : Drop columns which contain missing value.
+        :return: Tuple of X, y and list of target names
+        """
+        testdataset_path = Path(testdataset_path)
+        X, y = self.load_dataset(testdataset_path, target_col)
+        target_names = self.lbl_enc.inverse_transform(list(set(y)))
+        if dropna:
+            self.drop_na(X, how=how, axis=axis)
+
+        return X, y, target_names
+
+
+class PublicExperiment(Experiment):
     """
     This class gathers the main common attribs and methods used to carry out experiments using publicly available
-    frameworks such as scikitlearn or tensorflow.
+    frameworks such as scikitlearn or tensorflow. In theoria is an abstract class but still need to study those.
     """
-    def __init__(self, dataset_path: Path, target_col: str, text_col: str, split: bool = True, test_size: float = 0.2,
-                 model_savepath: Path = MODEL_SAVEPATH, preprocess_dataset=True):
+    def __init__(self, dataset_path: str, target_col: str, text_col: str, split: bool = True, test_size: float = 0.2,
+                 preprocess_dataset=True):
+        """
+        Expand on Experiment class by adding the following attrs:
+
+        :param text_col: label of the column containing the texts
+        :param preprocess_dataset: whether to use preprocessing function on the texts or not
+        """
         super().__init__(dataset_path=dataset_path,
                          target_col=target_col,
                          split=split,
-                         test_size=test_size,
-                         model_savepath=model_savepath)
+                         test_size=test_size)
         self.text_col = text_col
         self.preprocess_dataset = preprocess_dataset
         self.X = self.X[self.text_col]
@@ -288,7 +317,8 @@ class PublicExpertiment(Experiment):
     def load_test_dataset(self, testdataset_path: str, target_col: str = "label", dropna: bool = False,
                           how: str = "any", axis: int = 0) -> Tuple:
         """
-        Load a third party tests dataset to be used for verifying model robustness.
+        Load a third party tests dataset to be used for verifying model robustness. Also, looks for already
+        preprocessed datasets.
 
         :param target_col: label of the target column in the dataset
         :param testdataset_path: path of the test dataset

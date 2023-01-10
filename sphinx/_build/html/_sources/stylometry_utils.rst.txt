@@ -20,6 +20,14 @@ stylometry\_utils.class\_ScikitExperiment module
    :undoc-members:
    :show-inheritance:
 
+stylometry\_utils.class\_StyloExperiment module
+-----------------------------------------------
+
+.. automodule:: stylometry_utils.class_StyloExperiment
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 stylometry\_utils.decorators module
 -----------------------------------
 

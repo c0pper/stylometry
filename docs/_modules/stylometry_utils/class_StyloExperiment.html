@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stylometry_utils.class_StyloExperiment &mdash; stylometry_utils 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> stylometry_utils
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../stylometry_utils.html">stylometry_utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">stylometry_utils</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stylometry_utils.class_StyloExperiment</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stylometry_utils.class_StyloExperiment</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">stylometry_utils.decorators</span> <span class="kn">import</span> <span class="n">timeit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">stylometry_utils.class_Experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+
+
+<div class="viewcode-block" id="StyloExperiment"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment">[docs]</a><span class="k">class</span> <span class="nc">StyloExperiment</span><span class="p">(</span><span class="n">Experiment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class gathers the main common attrs and methods used to carry out experiments using a stylometry based</span>
+<span class="sd">    dataset. By default, the training uses a keras.Sequential neural network build from a dictionary of neural net</span>
+<span class="sd">    parameters and a default dictionary of parameters is passed, which is reported here as an example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        self.nn_parameters = {</span>
+<span class="sd">            &quot;n_layers&quot;: 1,</span>
+<span class="sd">            &quot;n_units_input&quot;: 51,</span>
+<span class="sd">            &quot;activation&quot;: &quot;relu&quot;,</span>
+<span class="sd">            &quot;n_units_l0&quot;: 80,</span>
+<span class="sd">            &quot;dropout_l0&quot;: 0.3203504513234906,</span>
+<span class="sd">            &quot;learning_rate&quot;: 0.0014392587661767942,</span>
+<span class="sd">            &quot;optimizer&quot;: &quot;RMSprop&quot;,</span>
+<span class="sd">            &quot;loss&quot;: &quot;binary_crossentropy&quot;,</span>
+<span class="sd">            &quot;metrics&quot;: [&quot;accuracy&quot;]</span>
+<span class="sd">        }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">algo</span><span class="o">=</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">nn_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+                         <span class="n">target_col</span><span class="o">=</span><span class="n">target_col</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_classes</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Training on datasets with more than 2 classes still not implemented&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algo</span> <span class="o">=</span> <span class="n">algo</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algo_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_stem</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">algo_name</span><span class="si">}</span><span class="s2">_stylo__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_savepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_logs_path</span> <span class="o">/</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">/</span> <span class="s2">&quot;models&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_logs_path</span> <span class="o">/</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">/</span> <span class="s2">&quot;logs&quot;</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_dataset</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">nn_parameters</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;n_layers&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;n_units_input&quot;</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
+                    <span class="s2">&quot;activation&quot;</span><span class="p">:</span> <span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;n_units_l0&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                    <span class="s2">&quot;dropout_l0&quot;</span><span class="p">:</span> <span class="mf">0.3203504513234906</span><span class="p">,</span>
+                    <span class="s2">&quot;learning_rate&quot;</span><span class="p">:</span> <span class="mf">0.0014392587661767942</span><span class="p">,</span>
+                    <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="s2">&quot;RMSprop&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
+                <span class="p">}</span>
+
+    <span class="nd">@timeit</span>
+    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Experiment split attribute is not set to true. Can&#39;t train with unsplitted dataset.</span><span class="se">\</span>
+<span class="s2">             Set the experiment split attr to true.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">Dense</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;n_units_input&quot;</span><span class="p">],</span>
+                    <span class="n">input_dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">activation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;activation&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;n_layers&quot;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">Dense</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;n_units_l</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+                        <span class="n">activation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;activation&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">Dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;dropout_l</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">))</span>
+
+            <span class="c1"># We compile our model with a sampled learning rate.</span>
+            <span class="n">learning_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span>
+            <span class="n">optimizer_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;optimizer&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+                <span class="n">loss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span>
+                <span class="n">optimizer</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="p">,</span> <span class="n">optimizer_name</span><span class="p">)(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">),</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="n">history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span>
+                <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+                <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+                <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_test</span><span class="p">)</span>
+            <span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">predicted</span><span class="p">))</span>
+            <span class="n">report</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lbl_enc</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">))))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbl_enc</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">,</span>
+                <span class="s2">&quot;report&quot;</span><span class="p">:</span> <span class="n">report</span><span class="p">,</span>
+                <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">epochs</span>
+            <span class="p">}</span>
+
+<div class="viewcode-block" id="StyloExperiment.train"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains the :attr:`StyloExperiment.algo` algorithm with the train set originated from the</span>
+<span class="sd">        :obj:`split_dataset &lt;stylometry_utils.class_Experiment.Experiment.split_dataset&gt;` method.</span>
+<span class="sd">        Uses a neural net built from the :attr:`StyloExperiment.nn_parameters` dictionary, using the following default</span>
+<span class="sd">        one if None is passed::</span>
+
+<span class="sd">            self.nn_parameters = {</span>
+<span class="sd">                &quot;n_layers&quot;: 1,</span>
+<span class="sd">                &quot;n_units_input&quot;: 51,</span>
+<span class="sd">                &quot;activation&quot;: &quot;relu&quot;,</span>
+<span class="sd">                &quot;n_units_l0&quot;: 80,</span>
+<span class="sd">                &quot;dropout_l0&quot;: 0.3203504513234906,</span>
+<span class="sd">                &quot;learning_rate&quot;: 0.0014392587661767942,</span>
+<span class="sd">                &quot;optimizer&quot;: &quot;RMSprop&quot;,</span>
+<span class="sd">                &quot;loss&quot;: &quot;binary_crossentropy&quot;,</span>
+<span class="sd">                &quot;metrics&quot;: [&quot;accuracy&quot;]</span>
+<span class="sd">            }</span>
+
+<span class="sd">        :param epochs: Epochs to be used in training</span>
+<span class="sd">        :return: dictionary with the logs of the training</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">,</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
+        <span class="n">log_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;report&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">],</span>
+                            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_test</span><span class="p">),</span> <span class="n">elapsed</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">log_dict</span></div>
+
+<div class="viewcode-block" id="StyloExperiment.save_model"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">lbl_enc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the model resulting from the training.</span>
+
+<span class="sd">        :param model: Trained algorithm</span>
+<span class="sd">        :param scaler: Scaler fitted during training</span>
+<span class="sd">        :param lbl_enc: LabelEncoder fitted during the training</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">save_confirmation</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Save model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">? (y/n)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_confirmation</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_savepath</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_savepath</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving model to </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+                <span class="s2">&quot;scaler&quot;</span><span class="p">:</span> <span class="n">scaler</span><span class="p">,</span>
+                <span class="s2">&quot;lbl_enc&quot;</span><span class="p">:</span> <span class="n">lbl_enc</span>
+            <span class="p">}</span>
+            <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model wasn&#39;t saved&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StyloExperiment.load_model_and_predict"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment.load_model_and_predict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load_model_and_predict</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a saved model and uses it to make predictions on a pandas Series.</span>
+
+<span class="sd">        :param model_path: Path to the model</span>
+<span class="sd">        :param X: Series on which to predict</span>
+<span class="sd">        :return: List of predictions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">predicted</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">predicted</span></div>
+
+<div class="viewcode-block" id="StyloExperiment.evaluate_on_other_dataset"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment.evaluate_on_other_dataset">[docs]</a>    <span class="nd">@timeit</span>
+    <span class="k">def</span> <span class="nf">evaluate_on_other_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testdataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate model on a third party tests dataset to verify model robustness.</span>
+
+<span class="sd">        :param testdataset_path: Path of the third party dataset</span>
+<span class="sd">        :param model_path: Path to the model</span>
+<span class="sd">        :param dropna: Whether to drop na values or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_test_dataset</span><span class="p">(</span><span class="n">testdataset_path</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="n">dropna</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">target_names</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="s2">&quot;lbl_enc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">classes_</span>
+
+        <span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_model_and_predict</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">target_names</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StyloExperiment.log"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_StyloExperiment.StyloExperiment.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">history</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves to a json file useful metrics from the training process. Meant to be used by the</span>
+<span class="sd">        :meth:`StyloExperiment.train` method.</span>
+
+<span class="sd">        :param history: history object of the training process</span>
+<span class="sd">        :param report: Report metrics of the training from :obj:`Experiment.print_report() &lt;stylometry_utils.class_Experiment.Experiment.print_report&gt;` method</span>
+<span class="sd">        :param epochs: Epochs used by the training</span>
+<span class="sd">        :param dataset_len: Lenght of the complete dataset (train + test)</span>
+<span class="sd">        :param elapsed: Elapsed time during training</span>
+<span class="sd">        :return: dictionary with all the metrics from the training. Same that was saved to file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;library_used&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+            <span class="s2">&quot;dataset_lenght&quot;</span><span class="p">:</span> <span class="n">dataset_len</span><span class="p">,</span>
+            <span class="s2">&quot;nn_parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nn_parameters</span><span class="p">,</span>
+            <span class="s2">&quot;elapsed&quot;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+            <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">epochs</span><span class="p">,</span>
+            <span class="s2">&quot;metrics_report&quot;</span><span class="p">:</span> <span class="n">report</span><span class="p">,</span>
+            <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="n">history</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_log.json&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">log_dict</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Log saved to &quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">log_dict</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Simone Martin Marotta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

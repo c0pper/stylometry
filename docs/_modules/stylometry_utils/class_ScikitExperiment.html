@@ -67,22 +67,21 @@
   <h1>Source code for stylometry_utils.class_ScikitExperiment</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">stylometry_utils.class_Experiment</span> <span class="kn">import</span> <span class="n">PublicExpertiment</span>
+<span class="kn">from</span> <span class="nn">stylometry_utils.class_Experiment</span> <span class="kn">import</span> <span class="n">PublicExperiment</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">stylometry_utils.decorators</span> <span class="kn">import</span> <span class="n">timeit</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">joblib</span>
 
 
-<div class="viewcode-block" id="ScikitExperiment"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_ScikitExperiment.ScikitExperiment">[docs]</a><span class="k">class</span> <span class="nc">ScikitExperiment</span><span class="p">(</span><span class="n">PublicExpertiment</span><span class="p">):</span>
+<div class="viewcode-block" id="ScikitExperiment"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_ScikitExperiment.ScikitExperiment">[docs]</a><span class="k">class</span> <span class="nc">ScikitExperiment</span><span class="p">(</span><span class="n">PublicExperiment</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class gathers the main common attribs and methods used to carry out experiments using the scikitlearn</span>
 <span class="sd">    framework.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">algo</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">algo</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">preprocess_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
                          <span class="n">target_col</span><span class="o">=</span><span class="n">target_col</span><span class="p">,</span>
@@ -91,9 +90,8 @@
                          <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span>
                          <span class="n">preprocess_dataset</span><span class="o">=</span><span class="n">preprocess_dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">algo</span> <span class="o">=</span> <span class="n">algo</span>
-        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y_%H-%M-%S&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">algo_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algo</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_stem</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">algo_name</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">now</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_stem</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">algo_name</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_savepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_logs_path</span> <span class="o">/</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">/</span> <span class="s2">&quot;models&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_logs_path</span> <span class="o">/</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">/</span> <span class="s2">&quot;logs&quot;</span>
 
@@ -101,7 +99,8 @@
     <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the :attr:`ScikitExperiment.algo` algorithm with the train set originated from the</span>
-<span class="sd">         :meth:`Experiment.split_dataset` method. Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.</span>
+<span class="sd">        :obj:`split_dataset &lt;stylometry_utils.class_Experiment.Experiment.split_dataset&gt;` method. Uses a pipeline</span>
+<span class="sd">        composed of TFIDF Vectorizer and the chosen algorithm.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Experiment split attribute is not set to true. Can&#39;t train with unsplitted dataset.</span><span class="se">\</span>
@@ -124,7 +123,8 @@
 <div class="viewcode-block" id="ScikitExperiment.train"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_ScikitExperiment.ScikitExperiment.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the :attr:`ScikitExperiment.algo` algorithm with the train set originated from the</span>
-<span class="sd">         :meth:`Experiment.split_dataset` method. Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.</span>
+<span class="sd">        :obj:`split_dataset &lt;stylometry_utils.class_Experiment.Experiment.split_dataset&gt;` method.</span>
+<span class="sd">        Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.</span>
 
 <span class="sd">        :return: dictionary with the logs of the training</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -166,7 +166,7 @@
         <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">predicted</span></div>
 
-    <span class="nd">@timeit</span>
+<div class="viewcode-block" id="ScikitExperiment.evaluate_on_other_dataset"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_ScikitExperiment.ScikitExperiment.evaluate_on_other_dataset">[docs]</a>    <span class="nd">@timeit</span>
     <span class="k">def</span> <span class="nf">evaluate_on_other_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testdataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluate model on a third party tests dataset to verify model robustness.</span>
@@ -181,16 +181,16 @@
         <span class="n">target_names</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="s2">&quot;lbl_enc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">classes_</span>
 
         <span class="n">predicted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_model_and_predict</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">target_names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_report</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">target_names</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ScikitExperiment.log"><a class="viewcode-back" href="../../stylometry_utils.html#stylometry_utils.class_ScikitExperiment.ScikitExperiment.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_len</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">report</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves to a json file useful metrics from the training process. Meant to be used by the</span>
 <span class="sd">        :meth:`ScikitExperiment.train` method.</span>
 
-<span class="sd">        :param dataset_len: Lenght of the dataset</span>
+<span class="sd">        :param dataset_len: Lenght of the complete dataset (train + test)</span>
 <span class="sd">        :param elapsed: Elapsed time during training</span>
-<span class="sd">        :param report: Report metrics of the training from :meth:`Experiment.print_report` method</span>
+<span class="sd">        :param report: Report metrics of the training from :obj:`Experiment.print_report() &lt;stylometry_utils.class_Experiment.Experiment.print_report&gt;` method</span>
 <span class="sd">        :return: dictionary with all the metrics from the training. Same that was saved to file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">log_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -204,7 +204,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">_log.json&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">log_dict</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">log_dict</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Log saved to &quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">log_dict</span></div></div>
 </pre></div>

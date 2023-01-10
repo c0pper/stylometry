@@ -1,21 +1,20 @@
 import pandas as pd
 
-from stylometry_utils.class_Experiment import PublicExpertiment
+from stylometry_utils.class_Experiment import PublicExperiment
 import json
 from pathlib import Path
 from stylometry_utils.decorators import timeit
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-from datetime import datetime
 import joblib
 
 
-class ScikitExperiment(PublicExpertiment):
+class ScikitExperiment(PublicExperiment):
     """
     This class gathers the main common attribs and methods used to carry out experiments using the scikitlearn
     framework.
     """
-    def __init__(self, dataset_path: Path, target_col: str, text_col: str, algo, split: bool = True,
+    def __init__(self, dataset_path: str, target_col: str, text_col: str, algo, split: bool = True,
                  test_size: float = 0.2, preprocess_dataset=True):
         super().__init__(dataset_path=dataset_path,
                          target_col=target_col,
@@ -24,9 +23,8 @@ class ScikitExperiment(PublicExpertiment):
                          test_size=test_size,
                          preprocess_dataset=preprocess_dataset)
         self.algo = algo
-        now = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
         self.algo_name = type(self.algo).__name__
-        self.experiment_name = f"{self.dataset_stem}__{self.algo_name}__{now}"
+        self.experiment_name = f"{self.dataset_stem}__{self.algo_name}__{self.now}"
         self.model_savepath = Path(self.dataset_logs_path / type(self).__name__ / self.experiment_name / "models")
         self.log_folder = Path(self.dataset_logs_path / type(self).__name__) / self.experiment_name / "logs"
 
@@ -34,7 +32,8 @@ class ScikitExperiment(PublicExpertiment):
     def _train(self):
         """
         Trains the :attr:`ScikitExperiment.algo` algorithm with the train set originated from the
-         :meth:`Experiment.split_dataset` method. Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.
+        :obj:`split_dataset <stylometry_utils.class_Experiment.Experiment.split_dataset>` method. Uses a pipeline
+        composed of TFIDF Vectorizer and the chosen algorithm.
         """
         if not self.split:
             raise ValueError("Experiment split attribute is not set to true. Can't train with unsplitted dataset.\
@@ -57,7 +56,8 @@ class ScikitExperiment(PublicExpertiment):
     def train(self) -> dict:
         """
         Trains the :attr:`ScikitExperiment.algo` algorithm with the train set originated from the
-        :meth:`Experiment.split_dataset` method. Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.
+        :obj:`split_dataset <stylometry_utils.class_Experiment.Experiment.split_dataset>` method.
+        Uses a pipeline composed of TFIDF Vectorizer and the chosen algorithm.
 
         :return: dictionary with the logs of the training
         """
@@ -114,16 +114,16 @@ class ScikitExperiment(PublicExpertiment):
         target_names = joblib.load(model_path, mmap_mode=None)["lbl_enc"].classes_
 
         predicted = self.load_model_and_predict(model_path, X)
-        super().print_report(predicted, y, target_names)
+        self.print_report(predicted, y, target_names)
 
     def log(self, dataset_len, elapsed, report):
         """
         Saves to a json file useful metrics from the training process. Meant to be used by the
         :meth:`ScikitExperiment.train` method.
 
-        :param dataset_len: Lenght of the dataset
+        :param dataset_len: Lenght of the complete dataset (train + test)
         :param elapsed: Elapsed time during training
-        :param report: Report metrics of the training from :meth:`Experiment.print_report` method
+        :param report: Report metrics of the training from :obj:`Experiment.print_report() <stylometry_utils.class_Experiment.Experiment.print_report>` method
         :return: dictionary with all the metrics from the training. Same that was saved to file.
         """
         log_dict = {
@@ -137,6 +137,6 @@ class ScikitExperiment(PublicExpertiment):
         self.log_folder.mkdir(parents=True, exist_ok=True)
         filepath = Path(self.log_folder / f"{self.experiment_name}_log.json")
         with open(filepath, 'w') as fp:
-            json.dump(log_dict, fp)
+            json.dump(log_dict, fp, indent=4)
             print("Log saved to ", filepath)
         return log_dict

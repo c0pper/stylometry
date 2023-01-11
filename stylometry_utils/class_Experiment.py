@@ -122,7 +122,7 @@ class Experiment:
 
         :param X: dataframe without target column. Returned by :meth:`Experiment.load_dataset`
         :param how: Determine if row or column is removed from DataFrame, when we have at least one NA or all NA.
-        :param axis: Determine if rows or columns which contain missing values are removed. *0, or ‘index’ : Drop rows which contain missing values. *1, or ‘columns’ : Drop columns which contain missing value.
+        :param axis: Determine if rows or columns which contain missing values are removed. 0, or ‘index’ : Drop rows which contain missing values. 1, or ‘columns’ : Drop columns which contain missing value.
         :return: X with dropped nans
         """
         print("DROPPING NAN")

@@ -11,10 +11,14 @@ from sklearn.datasets import make_classification
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 
+
+
+
+
 # from stylometry_utils.class_ScikitExperiment import ScikitExperiment
 # e = ScikitExperiment(Path(r"C:\Users\smarotta\PycharmProjects\stylometry\fn20k.xlsx"), "label", text_col="text", algo=MultinomialNB())
 # print(e.number_of_classes)
 
-from stylometry_utils.class_StyloExperiment import StyloExperiment
-e = StyloExperiment(r"C:\Users\smarotta\PycharmProjects\stylometry\fn20k_stil.csv", "Target")
-print(e.train())
+# from stylometry_utils.class_StyloExperiment import StyloExperiment
+# e = StyloExperiment(r"C:\Users\smarotta\PycharmProjects\stylometry\fn20k_stil.csv", "Target")
+# print(e.train())

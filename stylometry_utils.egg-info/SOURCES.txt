@@ -1,0 +1,9 @@
+setup.py
+stylometry_utils/__init__.py
+stylometry_utils/class_Experiment.py
+stylometry_utils/experiment_classes.py
+stylometry_utils.egg-info/PKG-INFO
+stylometry_utils.egg-info/SOURCES.txt
+stylometry_utils.egg-info/dependency_links.txt
+stylometry_utils.egg-info/requires.txt
+stylometry_utils.egg-info/top_level.txt
